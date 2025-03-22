@@ -34,7 +34,11 @@ const gameContent = {
         { word: 'Purple', image: './images/purple.html' },
         { word: 'Orange', image: './images/orange.html' },
         { word: 'Pink', image: './images/pink.html' },
-        { word: 'Brown', image: './images/brown.html' }
+        { word: 'Brown', image: './images/brown.html' },
+        { word: 'White', image: './images/white.html' },
+        { word: 'Black', image: './images/black.html' },
+        { word: 'Gray', image: './images/gray.html' },
+        { word: 'Gold', image: './images/gold.html' }
     ],
     numbers: [
         { word: 'One', number: '1' },
