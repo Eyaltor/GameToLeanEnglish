@@ -33,34 +33,58 @@ const gameContent = {
 };
 
 // Initialize speech synthesis
-const speech = new SpeechSynthesisUtterance();
+let currentVoices = [];
+let preferredGender = 'female'; // Default to female voice
+let speech = new SpeechSynthesisUtterance();
 speech.lang = 'en-US';
 speech.rate = 0.8; // Slower rate for better understanding
 
-let currentVoices = [];
-let preferredGender = 'female'; // Default to female voice
-
 // Function to update voice based on gender preference
 function updateVoice() {
-    const voices = currentVoices;
-    // Try to find a voice matching the preferred gender
-    const preferredVoice = voices.find(voice => 
-        voice.name.toLowerCase().includes(preferredGender) && 
-        voice.lang.startsWith('en-')
-    ) || voices.find(voice => 
-        voice.lang.startsWith('en-')
-    ); // Fallback to any English voice
+    const voices = window.speechSynthesis.getVoices();
+    // Filter for English voices first
+    const englishVoices = voices.filter(voice => voice.lang.startsWith('en-'));
     
-    if (preferredVoice) {
-        speech.voice = preferredVoice;
+    // Try to find a voice matching the preferred gender
+    let matchingVoice = englishVoices.find(voice => {
+        const voiceName = voice.name.toLowerCase();
+        if (preferredGender === 'male') {
+            return voiceName.includes('male') || 
+                   voiceName.includes('david') || 
+                   voiceName.includes('james') || 
+                   voiceName.includes('john');
+        } else {
+            return voiceName.includes('female') || 
+                   voiceName.includes('victoria') || 
+                   voiceName.includes('lisa') || 
+                   voiceName.includes('sarah');
+        }
+    });
+
+    // If no matching voice found, use any English voice
+    if (!matchingVoice && englishVoices.length > 0) {
+        matchingVoice = englishVoices[0];
+    }
+
+    if (matchingVoice) {
+        speech.voice = matchingVoice;
     }
 }
 
 // Set up voice handling
-window.speechSynthesis.onvoiceschanged = () => {
-    currentVoices = window.speechSynthesis.getVoices();
-    updateVoice();
-};
+if (window.speechSynthesis) {
+    // Initial voice load
+    window.speechSynthesis.onvoiceschanged = () => {
+        currentVoices = window.speechSynthesis.getVoices();
+        updateVoice();
+    };
+    
+    // Try to load voices immediately in case they're already available
+    if (window.speechSynthesis.getVoices().length > 0) {
+        currentVoices = window.speechSynthesis.getVoices();
+        updateVoice();
+    }
+}
 
 // Function to set voice gender
 function setVoiceGender(gender) {
@@ -70,6 +94,10 @@ function setVoiceGender(gender) {
     // Update button styles
     document.getElementById('femaleVoice').classList.toggle('active', gender === 'female');
     document.getElementById('maleVoice').classList.toggle('active', gender === 'male');
+    
+    // Test the voice change
+    speech.text = "Hello";
+    window.speechSynthesis.speak(speech);
 }
 
 // Function to show category
@@ -124,8 +152,13 @@ function showCategory(category) {
         
         // Add click event to play word
         card.addEventListener('click', () => {
-            speech.text = item.word;
-            window.speechSynthesis.speak(speech);
+            // Create a new utterance for each speak event
+            const utterance = new SpeechSynthesisUtterance(item.word);
+            utterance.voice = speech.voice;
+            utterance.rate = speech.rate;
+            utterance.lang = speech.lang;
+            
+            window.speechSynthesis.speak(utterance);
             
             // Add animation
             card.style.transform = 'scale(1.1)';
