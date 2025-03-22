@@ -65,7 +65,7 @@ let currentVoices = [];
 let preferredGender = 'female'; // Default to female voice
 let speech = new SpeechSynthesisUtterance();
 speech.lang = 'en-US'; // Specifically set to US English
-speech.rate = 0.85; // Slightly faster but still clear
+speech.rate = 0.5; // Very slow rate for young children
 speech.pitch = 1.0; // Natural pitch
 
 // Function to update voice based on gender preference
@@ -125,10 +125,10 @@ function updateVoice() {
         speech.voice = matchingVoice;
         // Adjust parameters based on voice type
         if (matchingVoice.name.toLowerCase().includes('microsoft')) {
-            speech.rate = 0.9; // Slightly faster for Microsoft voices
+            speech.rate = 0.55; // Very slow rate for Microsoft voices
             speech.pitch = 1.1; // Slightly higher pitch
         } else {
-            speech.rate = 0.85;
+            speech.rate = 0.5; // Very slow rate for other voices
             speech.pitch = 1.0;
         }
         console.log('Selected voice:', matchingVoice.name, matchingVoice.lang);
