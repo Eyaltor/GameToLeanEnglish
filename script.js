@@ -61,6 +61,34 @@ const gameContent = {
         { word: 'Eighteen', number: '18' },
         { word: 'Nineteen', number: '19' },
         { word: 'Twenty', number: '20' }
+    ],
+    abc: [
+        { word: 'Apple', emoji: '🍎', letter: 'A' },
+        { word: 'Banana', emoji: '🍌', letter: 'B' },
+        { word: 'Cat', emoji: '🐱', letter: 'C' },
+        { word: 'Dog', emoji: '🐶', letter: 'D' },
+        { word: 'Elephant', emoji: '🐘', letter: 'E' },
+        { word: 'Fish', emoji: '🐠', letter: 'F' },
+        { word: 'Giraffe', emoji: '🦒', letter: 'G' },
+        { word: 'House', emoji: '🏠', letter: 'H' },
+        { word: 'Ice Cream', emoji: '🍦', letter: 'I' },
+        { word: 'Jellyfish', emoji: '🪼', letter: 'J' },
+        { word: 'Kite', emoji: '🪁', letter: 'K' },
+        { word: 'Lion', emoji: '🦁', letter: 'L' },
+        { word: 'Moon', emoji: '🌙', letter: 'M' },
+        { word: 'Nest', emoji: '🪺', letter: 'N' },
+        { word: 'Orange', emoji: '🍊', letter: 'O' },
+        { word: 'Penguin', emoji: '🐧', letter: 'P' },
+        { word: 'Queen', emoji: '👸', letter: 'Q' },
+        { word: 'Rainbow', emoji: '🌈', letter: 'R' },
+        { word: 'Sun', emoji: '☀️', letter: 'S' },
+        { word: 'Tree', emoji: '🌳', letter: 'T' },
+        { word: 'Umbrella', emoji: '☔', letter: 'U' },
+        { word: 'Violin', emoji: '🎻', letter: 'V' },
+        { word: 'Watermelon', emoji: '🍉', letter: 'W' },
+        { word: 'X-ray', emoji: '📷', letter: 'X' },
+        { word: 'Yacht', emoji: '⛵', letter: 'Y' },
+        { word: 'Zebra', emoji: '🦓', letter: 'Z' }
     ]
 };
 
@@ -242,6 +270,33 @@ function showCategory(category) {
             });
             
             card.appendChild(soundIcon);
+        } else if (category === 'abc') {
+            // For ABC, create a div with letter and emoji
+            const abcBox = document.createElement('div');
+            abcBox.style.width = '100%';
+            abcBox.style.height = '150px';
+            abcBox.style.display = 'flex';
+            abcBox.style.flexDirection = 'column';
+            abcBox.style.alignItems = 'center';
+            abcBox.style.justifyContent = 'center';
+            abcBox.style.gap = '10px';
+            
+            // Add letter
+            const letterDiv = document.createElement('div');
+            letterDiv.style.fontSize = '60px';
+            letterDiv.style.fontWeight = 'bold';
+            letterDiv.style.color = '#FF6B6B';
+            letterDiv.style.fontFamily = "'Comic Sans MS', cursive, sans-serif";
+            letterDiv.textContent = item.letter;
+            abcBox.appendChild(letterDiv);
+            
+            // Add emoji
+            const emojiDiv = document.createElement('div');
+            emojiDiv.style.fontSize = '50px';
+            emojiDiv.textContent = item.emoji;
+            abcBox.appendChild(emojiDiv);
+            
+            card.appendChild(abcBox);
         }
         
         const span = document.createElement('span');
